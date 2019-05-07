@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  web:
+    restart: always
+    build:
+      context: .
+      dockerfile: ./docker/web/Dockerfile
+    working_dir: /code
+    expose:
+      - "8000"
+    volumes:
+      - .:/code
+      - .:/usr/src/web
+      - web-data:/usr/src/web/static
+    command: bash -c "python -m web.server"
+    ports:
+      - "80:8000"
+
+volumes:
+  web-data:
