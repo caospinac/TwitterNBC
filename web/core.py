@@ -1,5 +1,6 @@
 import os
 
+import pymongo
 from sanic import Sanic
 
 from configparser import ConfigParser
@@ -12,5 +13,10 @@ for sec_name, sec_content in config.items():
     config[sec_name] = dict(
         (k, eval(v)) for k, v in sec_content.items()
     )
+
+client = pymongo.MongoClient(
+    os.getenv('DB_HOST'), config['DB']['port']
+)
+db = client[config['DB']['name']]
 
 app = Sanic(__name__)
