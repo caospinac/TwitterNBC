@@ -9,6 +9,9 @@ __pycache__/
 # Code
 .vscode
 
+# Database
+data/
+
 # IPython
 profile_default/
 ipython_config.py

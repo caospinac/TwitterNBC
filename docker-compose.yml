@@ -1,21 +1,33 @@
-version: '3'
+version: "3.6"
 
 services:
+
+  db:
+    image: mongo:latest
+    volumes:
+      - db-storage:/run/db
+    ports:
+      - 27017:27017
+
   web:
-    restart: always
+    image: web
     build:
       context: .
       dockerfile: ./docker/web/Dockerfile
     working_dir: /code
-    expose:
-      - "8000"
     volumes:
       - .:/code
-      - .:/usr/src/web
-      - web-data:/usr/src/web/static
-    command: bash -c "python -m web.server"
+    command: python -m web.server0
     ports:
-      - "80:8000"
+      - 80:8000
+    environment:
+      VIRTUAL_HOST: "*/web, */web/*"
+      VIRTUAL_HOST_WEIGHT: 10
+      DB_HOST: db
+    links:
+      - db
+    depends_on:
+      - db
 
 volumes:
-  web-data:
+  db-storage:

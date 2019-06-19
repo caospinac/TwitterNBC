@@ -1,11 +1,10 @@
-FROM python:3.7
+FROM python:3.7-alpine
+
+RUN apk add --update alpine-sdk
+RUN apk add libffi-dev openssl-dev
 
 ADD . /code
 WORKDIR /code
 
-RUN pip3 install --upgrade pip
-RUN pip3 install -r web/requirements.pip
-
-EXPOSE 8000
-
-CMD ["python", "web/server.py"]
+RUN pip install --upgrade pip
+RUN pip install -r web/requirements.pip
