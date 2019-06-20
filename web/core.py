@@ -15,7 +15,7 @@ for sec_name, sec_content in config.items():
     )
 
 client = pymongo.MongoClient(
-    os.getenv('DB_HOST'), config['DB']['port']
+    os.getenv('DB_HOST')
 )
 db = client[config['DB']['name']]
 

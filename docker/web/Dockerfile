@@ -8,3 +8,4 @@ WORKDIR /code
 
 RUN pip install --upgrade pip
 RUN pip install -r web/requirements.pip
+RUN [ "python", "-c", "import nltk; nltk.download('all')" ]
