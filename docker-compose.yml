@@ -2,6 +2,14 @@ version: "3.6"
 
 services:
 
+  # nginx:
+  #   build: ./docker/nginx
+  #   volumes:
+  #     - ".:/code"
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+
   db:
     image: mongo:latest
     volumes:
@@ -14,9 +22,9 @@ services:
     build:
       context: .
       dockerfile: ./docker/web/Dockerfile
-    working_dir: /code
+    working_dir: /web
     volumes:
-      - .:/code
+      - .:/web
     command: python -m web.server
     ports:
       - 80:8000
@@ -28,6 +36,36 @@ services:
       - db
     depends_on:
       - db
+
+  gui:
+    image: gui
+    build:
+      context: .
+      dockerfile: ./docker/gui/Dockerfile
+    working_dir: /gui
+    volumes:
+      - '.:/gui'
+      - '/gui/node_modules'
+    command: yarn start
+    ports:
+        - 3000:3000
+    environment:
+      NODE_ENV: "development"
+      VIRTUAL_HOST: "*/*"
+    depends_on:
+      - web
+
+  # lb:
+  #   image: dockercloud/haproxy
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   ports:
+  #     - '80:80'
+  #     - '1936:1936'
+  #   links:
+  #     - db
+  #     - web
+  #     - gui
 
 volumes:
   db-storage:
