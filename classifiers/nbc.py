@@ -32,6 +32,11 @@ class NaiveBayesClassifier(object):
             for vj in self.values:
                 P[vj] *= self.__get_word(w)[vj]
 
+
+        total_factor = sum(v for k, v in P.items() if k in self.values)
+        for vj in self.values:
+            P[vj] = P[vj] / total_factor
+
         return {'document': doc, **P, 'trend': max(P, key=P.get)}
 
     def __in_vocabulary(self, word: str):

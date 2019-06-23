@@ -118,11 +118,15 @@ def main():
         classifier = NaiveBayesClassifier(training_data=data, values=values)
         classifier.train(classifier_name)
         for word, p in classifier.P.items():
+            total_factor = sum(v for k, v in p.items() if k in values)
+            factors = {}
+            for vj in values:
+                factors[vj] = p[vj] / total_factor
+
             db.words.insert_one({
                 'classifier': classifier_name,
                 'value': word,
-                'pos': p['pos'],
-                'neg': p['neg']
+                **factors
             })
 
     print(".")
