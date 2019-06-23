@@ -34,5 +34,5 @@ class WordsAPI(API):
         return self.json(list(cursor), count=cursor.count())
 
 
-app.add_route(WordsAPI.as_view(), "/api/words")
-app.add_route(WordsAPI.as_view(), "/api/words/<word:[^\\d\\W_]+>")
+app.add_route(WordsAPI.as_view(), "/v1/words")
+app.add_route(WordsAPI.as_view(), "/v1/words/<word:[^\\d\\W_]+>")

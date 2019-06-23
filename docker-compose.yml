@@ -2,18 +2,22 @@ version: "3.6"
 
 services:
 
-  # nginx:
-  #   build: ./docker/nginx
-  #   volumes:
-  #     - ".:/code"
-  #   ports:
-  #     - 80:80
-  #     - 443:443
+  nginx:
+    build: ./docker/nginx
+    volumes:
+      - ".:/code"
+    ports:
+      - 80:80
+      - 443:443
+    links: # Link services to access http://gui and  http://web inside the container
+      - web:web
+      - gui:gui
 
   db:
     image: mongo:latest
+    restart: always
     volumes:
-      - db-storage:/run/db
+      - ./data:/data/db
     ports:
       - 27017:27017
 
@@ -27,7 +31,7 @@ services:
       - .:/web
     command: python -m web.server
     ports:
-      - 80:8000
+      - 8000:8000
     environment:
       VIRTUAL_HOST: "*/web, */web/*"
       VIRTUAL_HOST_WEIGHT: 10
@@ -44,8 +48,7 @@ services:
       dockerfile: ./docker/gui/Dockerfile
     working_dir: /gui
     volumes:
-      - '.:/gui'
-      - '/gui/node_modules'
+      - ./gui:/gui
     command: yarn start
     ports:
         - 3000:3000
@@ -66,6 +69,3 @@ services:
   #     - db
   #     - web
   #     - gui
-
-volumes:
-  db-storage:
