@@ -1,0 +1,11 @@
+.spaced span, i {
+    margin: 2px;
+}
+
+.pull-right {
+    float: right;
+}
+
+.light-text {
+    color: #5a5a5a;
+}

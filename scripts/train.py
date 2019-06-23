@@ -101,7 +101,7 @@ def main():
     with open(path("join.csv"), "rt", encoding="utf-8-sig") as data_file:
         data_file.readline()
         reader = csv.reader(data_file)
-        for i, row in enumerate(reader):
+        for row in enumerate(reader):
             if row[0] in values:
                 data.append(row)
 
