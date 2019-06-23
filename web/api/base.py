@@ -56,8 +56,8 @@ class API(APIUtils):
     def delete(self, request, arg=None):
         return self.response(405)
 
-    def _json(self, body, status=200, headers=None):
-        return sr.json(body, status, headers)
+    def _json(self, body, status=200, headers=None, **kwargs):
+        return sr.json(body, status, headers, **kwargs)
 
     def json(self, data={}, **kwargs):
         data = self._parsed_data(data)

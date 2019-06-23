@@ -32,7 +32,7 @@ class NaiveBayesClassifier(object):
             for vj in self.values:
                 P[vj] *= self.__get_word(w)[vj]
 
-        return {**P, 'trend': max(P, key=P.get)}
+        return {'document': doc, **P, 'trend': max(P, key=P.get)}
 
     def __in_vocabulary(self, word: str):
         return self.__get_word(word) is not None
