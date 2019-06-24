@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { InputGroup, InputGroupAddon, Button, Input } from 'reactstrap';
+import { FormGroup, Button, Input } from 'reactstrap';
 
 export default class InputForm extends Component {
 
@@ -21,25 +21,40 @@ export default class InputForm extends Component {
     }
 
     onKeyUp(e) {
-        if (e.keyCode === 13) {
+        if (e.ctrlKey && e.keyCode === 13) {
             this.onSubmit();
         }
     }
 
     onSubmit() {
+        if (!this.state.text) {
+            return;
+        }
         const { onSubmit } = this.props;
         onSubmit && onSubmit(this.state);
+        this.setState({
+            text: ""
+        });
     }
 
     render() {
+        const { text } = this.state;
         const { disabled } = this.props;
         return (
-            <InputGroup>
-                <Input onChange={this.onChangeText} onKeyUp={this.onKeyUp} placeholder="Text" disabled={disabled}/>
-                <InputGroupAddon addonType="append">
-                    <Button onClick={this.onSubmit} disabled={disabled}>Analyze</Button>
-                </InputGroupAddon>
-            </InputGroup>
+            <div>
+                <FormGroup>
+                    <Input value={text} type="textarea" required={true} onKeyUp={this.onKeyUp}
+                            readOnly={disabled} onChange={this.onChangeText} placeholder="Text" />
+                </FormGroup>
+                <FormGroup>
+                    <div className="pull-right">
+                        <small className="light-text" style={{marginRight: "5px"}}>
+                            <i className="">Ctrl + Enter to submit</i>
+                        </small>
+                        <Button onClick={this.onSubmit} disabled={disabled}>Analyze</Button>
+                    </div>
+                </FormGroup>
+            </div>
         )
     }
 }
