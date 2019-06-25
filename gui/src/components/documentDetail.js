@@ -52,6 +52,9 @@ export default class DocumentDetail extends Component {
                         <span>
                             {this.getType(data)}
                         </span>
+                        <span>
+                            {this.props.children}
+                        </span>
                         <small className="light-text pull-right">
                             <i className="">Positive: {(pos * 100).toFixed(2)}%</i>
                             <i className="">Negative: {(neg * 100).toFixed(2)}%</i>

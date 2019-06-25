@@ -102,11 +102,12 @@ export default class App extends Component {
                 <Row>
                     <Col>
                         <InputGroup>
+                            <InputGroupAddon addonType="prepend">Tweet search</InputGroupAddon>
                             <Input value={textSearch} onKeyUp={this.onKeyUpSearch}
-                                readOnly={isLoading} onChange={this.onChangeTextSearch} placeholder="Search tweets" />
-                        <InputGroupAddon addonType="append">
-                            <Button onClick={this.onSubmitSearch} disabled={isLoading}>Search</Button>
-                        </InputGroupAddon>
+                                    readOnly={isLoading} onChange={this.onChangeTextSearch} placeholder="" />
+                            <InputGroupAddon addonType="append">
+                                <Button onClick={this.onSubmitSearch} disabled={isLoading}>Search</Button>
+                            </InputGroupAddon>
                         </InputGroup>
                         <div>
                             <small className="light-text" style={{marginRight: "5px"}}>
@@ -114,7 +115,16 @@ export default class App extends Component {
                             </small>
                         </div>
                         {tweets.length > 0 && tweets.map((tweet, index) => {
-                            return (<div key={index}><DocumentDetail data={tweet.nbc}></DocumentDetail></div>)
+                            return (
+                                <div key={index}>
+                                    <DocumentDetail data={tweet.nbc}>
+                                        <a href={"https://twitter.com/statuses/" + tweet._id}
+                                                target="_blank">
+                                            Go to tweet
+                                        </a>
+                                    </DocumentDetail>
+                                </div>
+                            )
                         })
 
                         }
