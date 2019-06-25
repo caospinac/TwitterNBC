@@ -1,15 +1,17 @@
 import React, { Component } from 'react'
-import { Container, Row, Col } from 'reactstrap';
+import { Button, Container, InputGroup, InputGroupAddon, Input, Row, Col } from 'reactstrap';
 
 import InputForm from './components/inputForm'
 import DocumentDetail from './components/documentDetail'
 
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import Util from './util';
 
 const util = new Util();
 global.ajax = util.ajax;
+global.openFile = util.openFile;
+global.readFile = util.readFile;
 
 export default class App extends Component {
 
@@ -17,9 +19,14 @@ export default class App extends Component {
         super(props);
         this.state = {
             result: {},
+            tweets: [],
+            textSearch: "",
             isLoading: false
         }
         this.onSubmit = this.onSubmit.bind(this);
+        this.onChangeTextSearch = this.onChangeTextSearch.bind(this);
+        this.onKeyUpSearch = this.onKeyUpSearch.bind(this);
+        this.onSubmitSearch = this.onSubmitSearch.bind(this);
     }
 
     async onSubmit(formData) {
@@ -39,8 +46,41 @@ export default class App extends Component {
 
     }
 
+    onChangeTextSearch(e) {
+        this.setState({
+            textSearch: e.target.value
+        });
+    }
+
+    onKeyUpSearch(e) {
+        if (e.keyCode === 13) {
+            this.onSubmitSearch();
+        }
+    }
+
+    async onSubmitSearch() {
+        const { textSearch } = this.state;
+        if (!textSearch) {
+            return;
+        }
+        this.setState({
+            isLoading: true
+        })
+        let response = await global.ajax({
+            url: "/api/v1/twitter/search",
+            params: {
+                q: textSearch,
+                classify: true
+            }
+        });
+        this.setState({
+            tweets: response.data.data || [],
+            isLoading: false
+        })
+    }
+
     render() {
-        const { result, isLoading } = this.state;
+        const { result, tweets, textSearch, isLoading } = this.state;
         return (
             <Container>
                 <h1>Sentiment Analysis App</h1>
@@ -58,6 +98,28 @@ export default class App extends Component {
                         </Col>
                     </Row>
                 </div>}
+                <hr />
+                <Row>
+                    <Col>
+                        <InputGroup>
+                            <Input value={textSearch} onKeyUp={this.onKeyUpSearch}
+                                readOnly={isLoading} onChange={this.onChangeTextSearch} placeholder="Search tweets" />
+                        <InputGroupAddon addonType="append">
+                            <Button onClick={this.onSubmitSearch} disabled={isLoading}>Search</Button>
+                        </InputGroupAddon>
+                        </InputGroup>
+                        <div>
+                            <small className="light-text" style={{marginRight: "5px"}}>
+                                <i className="">Enter to search</i>
+                            </small>
+                        </div>
+                        {tweets.length > 0 && tweets.map((tweet, index) => {
+                            return (<div key={index}><DocumentDetail data={tweet.nbc}></DocumentDetail></div>)
+                        })
+
+                        }
+                    </Col>
+                </Row>
             </Container>
         )
     }

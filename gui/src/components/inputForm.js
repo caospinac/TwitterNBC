@@ -44,7 +44,7 @@ export default class InputForm extends Component {
             <div>
                 <FormGroup>
                     <Input value={text} type="textarea" required={true} onKeyUp={this.onKeyUp}
-                            readOnly={disabled} onChange={this.onChangeText} placeholder="Text" />
+                            readOnly={disabled} onChange={this.onChangeText} placeholder="Enter any text" />
                 </FormGroup>
                 <FormGroup>
                     <div className="pull-right">
