@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Container, InputGroup, InputGroupAddon, Input, Row, Col } from 'reactstrap';
+import { Button, Container, InputGroup, InputGroupAddon, Input, Row, Col, Spinner } from 'reactstrap';
 
 import InputForm from './components/inputForm'
 import DocumentDetail from './components/documentDetail'
@@ -83,7 +83,7 @@ export default class App extends Component {
         const { result, tweets, textSearch, isLoading } = this.state;
         return (
             <Container>
-                <h1>Sentiment Analysis App</h1>
+                <h1>Sentiment Analysis App {isLoading && <Spinner style={{ width: '3rem', height: '3rem' }} type="grow" />}</h1>
                 <Row>
                     <Col>
                         <InputForm onSubmit={this.onSubmit} disabled={isLoading}></InputForm>
