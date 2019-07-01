@@ -118,7 +118,7 @@ export default class App extends Component {
                             return (
                                 <div key={index}>
                                     <DocumentDetail data={tweet.nbc}>
-                                        <a href={"https://twitter.com/statuses/" + tweet._id}
+                                        <a href={"https://twitter.com/user/status/" + tweet._id}
                                                 target="_blank">
                                             Go to tweet
                                         </a>
