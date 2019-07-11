@@ -53,7 +53,7 @@ class NaiveBayesClassifier(object):
         text = re.sub(r"((www\.[^\s]+)|(https?://[^\s]+))", "{link}", text)
         text = re.sub(r"@[^\s]+", "{mention}", text)
         text = re.sub(r"#([^\s]+)", r"\1", text)
-        words = re.findall(r"[^\d\W_]{2,}", text)
+        words = re.findall(r"([^\d\W_]{2,}|\{(mention|link)\})", text)
         words = filter(lambda w: w not in self.__stopwords, words)
         words = list(words)
         return words
