@@ -28,8 +28,7 @@ class TwitterAPI(object):
             'created_at': data['created_at'],
             '_id': data['id_str'],
             'text': text,
-            'lang': data['lang'],
-            'metadata': data['metadata'],
+            'lang': data['lang']
         }
 
     def search(self, q, lang="en", result_type="mixed", count=12,

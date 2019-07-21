@@ -11,7 +11,11 @@ class TwitterSearch(API):
 
     def get(self, request):
         q = request.raw_args.get('q', "")
-        count = request.raw_args.get('count', 12)
+        try:
+            count = int(request.raw_args.get('count'))
+        except ValueError:
+            count = 12
+
         lang = request.raw_args.get('lang', "en")
         classify = request.raw_args.get('classify', "false")
         class_field = request.raw_args.get('class_field', "text")

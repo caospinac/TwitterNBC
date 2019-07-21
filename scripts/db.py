@@ -1,5 +1,6 @@
-import pymongo
+import os
 
+import pymongo
 from configparser import ConfigParser
 
 
@@ -12,7 +13,7 @@ for sec_name, sec_content in config.items():
     )
 
 client = pymongo.MongoClient(
-    config['DB']['host'], config['DB']['port']
+    os.getenv('DB_HOST')
 )
 
 db = client[config['DB']['name']]
