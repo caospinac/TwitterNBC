@@ -8,4 +8,4 @@ WORKDIR /web
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.pip
-RUN [ "python", "-c", "import nltk; nltk.download('all')" ]
+RUN [ "python", "-c", "import nltk; nltk.download('stopwords')" ]
