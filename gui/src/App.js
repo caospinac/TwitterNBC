@@ -83,7 +83,7 @@ export default class App extends Component {
         const { result, tweets, textSearch, isLoading } = this.state;
         return (
             <Container>
-                <h1>Sentiment Analysis App {isLoading && <Spinner style={{ width: '3rem', height: '3rem' }} type="grow" />}</h1>
+                <h1>Twitter NBC {isLoading && <Spinner style={{ width: '3rem', height: '3rem' }} type="grow" />}</h1>
                 <Row>
                     <Col>
                         <InputForm onSubmit={this.onSubmit} disabled={isLoading}></InputForm>
